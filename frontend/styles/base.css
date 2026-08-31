@@ -1,0 +1,179 @@
+/* ============================================================
+   SpaceExplorer 2.0 — Base CSS
+   Variables · Reset · Typography · Global Elements
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+/* ── CSS Custom Properties ──────────────────────────────────── */
+:root {
+  /* Background Scale */
+  --bg-void:        #03040a;
+  --bg-deep:        #070b14;
+  --bg-surface:     #0d1424;
+  --bg-elevated:    #111d35;
+  --bg-glass:       rgba(13, 20, 36, 0.75);
+
+  /* Accent Colors */
+  --accent-primary: #00d4ff;
+  --accent-glow:    #0099cc;
+  --accent-pulse:   #00ffcc;
+  --accent-warn:    #ff6b35;
+  --accent-danger:  #ff3366;
+  --accent-gold:    #ffd700;
+
+  /* Text */
+  --text-primary:   #e8f4ff;
+  --text-secondary: #7a9bbf;
+  --text-dim:       #3d5a7a;
+
+  /* Borders */
+  --border-subtle:  rgba(0, 212, 255, 0.12);
+  --border-active:  rgba(0, 212, 255, 0.4);
+  --border-glow:    rgba(0, 212, 255, 0.7);
+
+  /* Typography */
+  --font-heading: 'Orbitron', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-card:  0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-glow:  0 0 20px rgba(0, 212, 255, 0.15);
+  --shadow-glow-intense: 0 0 32px rgba(0, 212, 255, 0.35);
+
+  /* Transitions */
+  --ease-fast:   0.15s ease;
+  --ease-normal: 0.25s ease;
+  --ease-slow:   0.4s ease;
+
+  /* Layout */
+  --sidebar-collapsed: 72px;
+  --sidebar-expanded:  240px;
+  --header-height:     56px;
+  --panel-width:       480px;
+}
+
+/* ── Global Reset ───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+  /* Scanline overlay */
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 212, 255, 0.015) 2px,
+      rgba(0, 212, 255, 0.015) 4px
+    );
+}
+
+/* tsParticles canvas */
+#tsparticles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Typography ─────────────────────────────────────────────── */
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
+h4 { font-size: 0.95rem; }
+
+.mono { font-family: var(--font-mono); }
+
+a { color: var(--accent-primary); text-decoration: none; transition: color var(--ease-fast); }
+a:hover { color: var(--accent-pulse); }
+
+/* ── Focus Ring ─────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-surface); }
+::-webkit-scrollbar-thumb { background: var(--border-active); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+
+/* ── Section Divider ────────────────────────────────────────── */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+  margin: var(--space-lg) 0;
+  opacity: 0.4;
+}
+
+/* ── Glow Text ──────────────────────────────────────────────── */
+.glow-text {
+  color: var(--accent-primary);
+  text-shadow: 0 0 24px rgba(0, 212, 255, 0.5);
+}
+
+/* ── Status Dots ────────────────────────────────────────────── */
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: var(--space-xs);
+  flex-shrink: 0;
+}
+.status-dot.active     { background: #00ff88; animation: pulse-dot 2s infinite; }
+.status-dot.planning   { background: var(--accent-warn); }
+.status-dot.completed  { background: var(--accent-primary); }
+.status-dot.failed     { background: var(--accent-danger); }
+.status-dot.go         { background: #00ff88; animation: pulse-dot 1.5s infinite; }
+.status-dot.hold       { background: var(--accent-warn); }
+.status-dot.scrubbed   { background: var(--accent-danger); }
+.status-dot.launched   { background: var(--accent-primary); }
+.status-dot.deployed   { background: #00ff88; animation: pulse-dot 2s infinite; }
+.status-dot.standby    { background: var(--accent-warn); }
+.status-dot.off-duty   { background: var(--text-dim); }
+
+/* ── Visually Hidden (accessibility) ────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,159 @@
+/* ============================================================
+   SpaceExplorer 2.0 — Animations CSS
+   All @keyframes and Transition Utilities
+   ============================================================ */
+
+/* ── Page Transitions ───────────────────────────────────────── */
+@keyframes page-enter {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes page-exit {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-20px); }
+}
+
+/* ── Pulsing Dot ────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ── Pulsing Glow Border ────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(0, 212, 255, 0.3), 0 0 0 0 rgba(0, 212, 255, 0.2); }
+  50%       { box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 0 6px rgba(0, 212, 255, 0); }
+}
+
+@keyframes pulse-glow-green {
+  0%, 100% { box-shadow: 0 0 6px rgba(0, 255, 136, 0.3); }
+  50%       { box-shadow: 0 0 20px rgba(0, 255, 136, 0.7); }
+}
+
+@keyframes pulse-glow-orange {
+  0%, 100% { box-shadow: 0 0 6px rgba(255, 107, 53, 0.3); }
+  50%       { box-shadow: 0 0 20px rgba(255, 107, 53, 0.7); }
+}
+
+/* ── Shake (form validation error) ─────────────────────────── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%       { transform: translateX(-6px); }
+  45%       { transform: translateX(6px); }
+  75%       { transform: translateX(-4px); }
+  90%       { transform: translateX(4px); }
+}
+
+/* ── Counter (stat number reveal) ──────────────────────────── */
+@keyframes counter-reveal {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Shimmer (skeleton loader) ──────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+/* ── Slide In From Right ────────────────────────────────────── */
+@keyframes slide-in-right {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* ── Slide In From Bottom ───────────────────────────────────── */
+@keyframes slide-in-bottom {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── Toast slide-up ─────────────────────────────────────────── */
+@keyframes toast-in {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes toast-out {
+  from { transform: translateY(0);    opacity: 1; }
+  to   { transform: translateY(-12px); opacity: 0; }
+}
+
+/* ── Flip Digit (countdown) ─────────────────────────────────── */
+@keyframes flip-digit {
+  0%   { transform: rotateX(0deg);   }
+  50%  { transform: rotateX(90deg);  }
+  51%  { transform: rotateX(-90deg); }
+  100% { transform: rotateX(0deg);   }
+}
+
+/* ── Spin ───────────────────────────────────────────────────── */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Fade In ────────────────────────────────────────────────── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Scale In ───────────────────────────────────────────────── */
+@keyframes scale-in {
+  from { transform: scale(0.92); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+/* ── Card Stagger In ────────────────────────────────────────── */
+@keyframes card-in {
+  from { transform: scale(0.95) translateY(12px); opacity: 0; }
+  to   { transform: scale(1)    translateY(0);    opacity: 1; }
+}
+
+/* ── Row Slide in From Left (leaderboard) ───────────────────── */
+@keyframes row-in {
+  from { transform: translateX(-24px); opacity: 0; }
+  to   { transform: translateX(0);     opacity: 1; }
+}
+
+/* ── Confetti Burst ─────────────────────────────────────────── */
+@keyframes confetti-fall {
+  0%   { transform: translateY(-10px) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(60px)  rotate(360deg); opacity: 0; }
+}
+
+/* ── Marquee (ticker) ───────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(-100%); }
+}
+
+/* ── Breathing Glow (podium gold) ──────────────────────────── */
+@keyframes breathe-gold {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.3); }
+  50%       { box-shadow: 0 0 40px rgba(255, 215, 0, 0.7), 0 8px 32px rgba(255, 215, 0, 0.2); }
+}
+
+/* ── Typing cursor ──────────────────────────────────────────── */
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ── Utility Classes ────────────────────────────────────────── */
+.animate-in      { animation: scale-in 0.3s ease forwards; }
+.animate-spin    { animation: spin 1s linear infinite; }
+.animate-pulse   { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-shake   { animation: shake 0.4s ease; }
+
+.stagger-1  { animation-delay: 0.05s; }
+.stagger-2  { animation-delay: 0.10s; }
+.stagger-3  { animation-delay: 0.15s; }
+.stagger-4  { animation-delay: 0.20s; }
+.stagger-5  { animation-delay: 0.25s; }
+
+.transition-fast   { transition: all var(--ease-fast); }
+.transition-normal { transition: all var(--ease-normal); }
+.transition-slow   { transition: all var(--ease-slow); }

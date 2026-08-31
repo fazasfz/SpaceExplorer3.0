@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Explorer 3.0</title>
+  <meta name="description" content="Consumer-focused amateur astronomy and citizen science platform with an immersive HUD aesthetic.">
+
+  <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+  <link rel="stylesheet" href="styles/pages.css">
+  <link rel="stylesheet" href="styles/animations.css">
+</head>
+<body>
+
+<div id="tsparticles"></div>
+
+<div id="toast-container"></div>
+
+<div id="app">
+
+  <aside id="sidebar" role="navigation" aria-label="Main navigation">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.5 8.5 3 6l4.5 5.5L2 17l7-1.5L12 22l3-6.5L22 17l-5.5-5.5L21 6l-6.5 2.5L12 2z"/></svg>
+      </div>
+      <span class="sidebar-logo-text">SPACEEXPLORER</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-page="dashboard" aria-label="Dashboard">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        </div>
+        <span class="nav-label">Dashboard</span>
+      </button>
+      <button class="nav-item" data-page="crew" aria-label="Astronomy Club Directory">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="9" cy="7" r="3"/><circle cx="15" cy="7" r="3"/>
+            <path d="M3 21v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2"/>
+          </svg>
+        </div>
+        <span class="nav-label">Community Directory</span>
+      </button>
+      <button class="nav-item" data-page="discoveries" aria-label="Citizen Science Hub">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/>
+            <path d="M11 8v6M8 11h6"/>
+          </svg>
+        </div>
+        <span class="nav-label">Citizen Science</span>
+      </button>
+      <button class="nav-item" data-page="observations" aria-label="Observation Log">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/>
+            <line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/>
+            <line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+          </svg>
+        </div>
+        <span class="nav-label">Observation Log</span>
+      </button>
+      <button class="nav-item" data-page="launches" aria-label="Live Launches">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 2c0 0-4 5-4 11h8c0-6-4-11-4-11z"/><path d="M8 13l-2 5h12l-2-5"/>
+            <line x1="12" y1="18" x2="12" y2="22"/>
+          </svg>
+        </div>
+        <span class="nav-label">Live Launches</span>
+      </button>
+      <button class="nav-item" data-page="leaderboard" aria-label="Leaderboard">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="3" y="12" width="4" height="9"/><rect x="10" y="8" width="4" height="13"/><rect x="17" y="5" width="4" height="16"/>
+          </svg>
+        </div>
+        <span class="nav-label">Leaderboard</span>
+      </button>
+      <button class="nav-item" data-page="search" aria-label="Search and Database">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </div>
+        <span class="nav-label">Search &amp; DB</span>
+      </button>
+      <button class="nav-item" data-page="login" aria-label="Login and Profile">
+        <div class="nav-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <span class="nav-label">Account / Sync</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-version">v3.0.0 · SPACEEXPLORER</div>
+  </aside>
+
+  <div id="main-container">
+
+    <header id="header">
+      <div class="header-left">
+        <span id="page-title">Dashboard</span>
+        <span class="header-breadcrumb">/ SPACE EXPLORER 3.0</span>
+      </div>
+      <div class="header-right">
+        <div class="mission-clock" aria-label="Session elapsed time">
+          <span class="mission-clock-label">SET</span>
+          <span id="mission-clock-value" class="mono">000:00:00:00</span>
+        </div>
+        <button class="notif-btn" aria-label="Notifications">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="notif-badge"></span>
+        </button>
+        <div class="user-avatar" aria-label="User profile" title="Amateur Astronomer">AE</div>
+      </div>
+    </header>
+
+    <main id="main-content">
+      
+      <div id="page-dashboard" class="page">
+        <div class="page-header">
+          <h1 class="glow-text">Observer Dashboard</h1>
+          <p>Space Explorer 3.0 — Amateur Astronomy &amp; Citizen Science Hub</p>
+        </div>
+
+        <div class="dashboard-stats">
+          <div class="card card-brackets stat-card">
+            <div class="stat-icon-wrap" style="background:rgba(0,212,255,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="1.5">
+                <circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Observations Logged</div>
+              <div class="stat-number" id="stat-active-missions">0</div>
+              <div class="stat-trend up">↑ 3 this week</div>
+            </div>
+          </div>
+          <div class="card card-brackets stat-card">
+            <div class="stat-icon-wrap" style="background:rgba(0,255,204,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-pulse)" stroke-width="1.5">
+                <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a8 8 0 0 1 16 0v2"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Club Members</div>
+              <div class="stat-number" id="stat-crew-deployed">0</div>
+              <div class="stat-trend up">Active network</div>
+            </div>
+          </div>
+          <div class="card card-brackets stat-card">
+            <div class="stat-icon-wrap" style="background:rgba(255,107,53,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-warn)" stroke-width="1.5">
+                <circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Citizen Contributions</div>
+              <div class="stat-number" id="stat-discoveries">0</div>
+              <div class="stat-trend up">Zooniverse / ExoClock</div>
+            </div>
+          </div>
+          <div class="card card-brackets stat-card">
+            <div class="stat-icon-wrap" style="background:rgba(255,215,0,0.12)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-gold)" stroke-width="1.5">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <div class="stat-label">Observation Streak</div>
+              <div class="stat-number" id="stat-success-rate">0<span style="font-size:1rem"> days</span></div>
+              <div class="stat-trend up">Personal best</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom:var(--space-xl)">
+          <div class="live-feed-header">
+            <span class="section-title" style="flex:1">🚀 Upcoming Launch Companion</span>
+            <button class="btn btn-ghost btn-sm" onclick="navigateTo('launches')">View Schedule</button>
+          </div>
+          <div class="h-scroll" id="mission-feed"></div>
+        </div>
+
+        <div class="dashboard-bottom">
+          <div class="card card-brackets">
+            <div class="section-title">🔬 Contributions by Program</div>
+            <div style="height:220px;position:relative"><canvas id="discovery-chart"></canvas></div>
+          </div>
+          <div class="card card-brackets">
+            <div class="section-title">📅 Recent Observations</div>
+            <div id="dash-timeline"></div>
+          </div>
+          <div class="card card-brackets">
+            <div class="section-title" style="margin-bottom:var(--space-sm)">🔭 Club Directory</div>
+            <div id="dash-crew"></div>
+            <button class="btn btn-secondary btn-full" style="margin-top:var(--space-md)" onclick="navigateTo('crew')">View Full Directory</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="page-crew" class="page">
+        <div class="page-header">
+          <h1 class="glow-text">Astronomy Club &amp; Community Directory</h1>
+          <p>Connect with fellow stargazers and local observing buddies</p>
+        </div>
+        <div class="crew-toolbar">
+          <input class="form-input crew-search" id="crew-search-input" placeholder="Search members..." aria-label="Search members">
+          <select class="form-select" id="crew-rank-filter" style="max-width:160px" aria-label="Filter by role">
+            <option value="">All Roles</option>
+            <option value="astrophotographer">Astrophotographer</option>
+            <option value="sidewalk">Sidewalk Astronomer</option>
+            <option value="researcher">Citizen Scientist</option>
+            <option value="beginner">Observer</option>
+          </select>
+          <div class="toggle-group" style="max-width:160px">
+            <button class="toggle-btn active" id="crew-view-grid" aria-label="Grid view">⊞ Grid</button>
+            <button class="toggle-btn" id="crew-view-table" aria-label="Table view">☰ Table</button>
+          </div>
+        </div>
+        <div id="crew-container"></div>
+        <button class="fab" onclick="openAddAstronaut()" aria-label="Add club member" title="Add Member">+</button>
+      </div>
+
+      <div id="page-discoveries" class="page">
+        <div class="discoveries-hero">
+          <div style="font-family:var(--font-heading);font-size:0.75rem;letter-spacing:0.15em;color:var(--text-secondary);margin-bottom:8px">CITIZEN SCIENCE CONTRIBUTIONS</div>
+          <div class="discovery-count" id="total-discoveries">0</div>
+          <div style="font-family:var(--font-heading);font-size:0.75rem;color:var(--text-secondary);letter-spacing:0.1em;margin-top:var(--space-md)">ACTIVE PROGRAMS (UNISTELLAR, ZOONIVERSE, EXOCLOCK)</div>
+          <div class="discovery-ticker-wrap">
+            <span class="discovery-ticker" id="discovery-ticker">Loading citizen science projects...</span>
+          </div>
+        </div>
+
+        <div class="discoveries-layout">
+          <div class="filter-sidebar">
+            <h3>Filter Program</h3>
+            <label class="filter-checkbox"><input type="checkbox" class="disc-type-cb" value="unistellar" checked> 🔭 Unistellar Network</label>
+            <label class="filter-checkbox"><input type="checkbox" class="disc-type-cb" value="zooniverse" checked> 🌌 Zooniverse Projects</label>
+            <label class="filter-checkbox"><input type="checkbox" class="disc-type-cb" value="exoclock" checked> 🪐 ExoClock Exoplanets</label>
+            <label class="filter-checkbox"><input type="checkbox" class="disc-type-cb" value="spectroscopy" checked> 🌈 Amateur Spectroscopy</label>
+            <div style="height:1px;background:var(--border-subtle);margin:var(--space-md) 0"></div>
+            <h3>Search</h3>
+            <input class="form-input" id="disc-search" placeholder="Target, program..." style="font-size:0.8rem" aria-label="Search contributions">
+          </div>
+          <div class="discoveries-grid" id="discoveries-grid"></div>
+        </div>
+        <button class="fab" onclick="openAddDiscovery()" aria-label="Log contribution" title="Log Contribution">+</button>
+      </div>
+
+      <div id="page-observations" class="page">
+        <div class="page-header">
+          <h1 class="glow-text">Observation Log</h1>
+          <p>Personal night-sky journal, streaks, stats, and real-time celestial coordinates</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--space-lg); margin-bottom: var(--space-lg);">
+          
+          <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+            
+            <div class="card card-brackets" style="background: rgba(20,24,35,0.4); padding: var(--space-md); border: 1px solid var(--border-subtle); margin-bottom: var(--space-md);">
+              <h3 style="font-family: var(--font-heading); color: #fff; font-size: 1.1rem; margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px;">
+                🌌 LIVE SKY VIEWPORT
+              </h3>
+              <p style="color: var(--text-dim); font-size: 0.75rem; font-family: var(--font-mono); margin-bottom: var(--space-md);">
+                STELLARIUM WEB COMPANION TELEMETRY
+              </p>
+              
+              <div class="viewport-telemetry-container" style="position: relative; width: 100%; height: 360px; background: #000; border: 1px solid var(--border-subtle); border-radius: 4px; overflow: hidden;">
+                <iframe 
+                  id="stellarium-viewport" 
+                  src="https://virtualsky.lco.global/embed/index.html?longitude=73.3035&latitude=33.2639&projection=stereo&constellations=true&constellationlabels=true&showposition=false&showdate=false&gradient=true" 
+                  style="width: 100%; height: 100%; border: none; overflow: hidden;"
+                  loading="lazy"
+                  allow="geolocation" 
+                  scrolling="no">
+                </iframe>
+              </div>
+            </div> 
+            
+            <div class="card card-brackets" style="background: rgba(20,24,35,0.4); padding: var(--space-md); border: 1px solid var(--border-subtle);">
+              <h3 style="font-family: var(--font-heading); color: #fff; font-size: 1.1rem; margin-bottom: var(--space-xs);">
+                ✏️ RECORD NEW OBSERVATION JOURNAL ENTRY
+              </h3>
+              <p style="color: var(--accent-primary); font-size: 0.7rem; font-family: var(--font-mono); margin-bottom: var(--space-md);">
+                LOG YOUR NIGHT-SKY TARGETS, OPTICS, AND ASTROPHOTOGRAPHY ATTACHMENTS
+              </p>
+
+              <form id="obs-log-form" onsubmit="handleSaveObservation(event)" style="display: flex; flex-direction: column; gap: var(--space-sm);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
+                  <div>
+                    <label style="display: block; font-size: 0.7rem; color: var(--text-secondary); font-family: var(--font-mono); margin-bottom: 4px;">TARGET OBJECT *</label>
+                    <input type="text" id="obs-target" required placeholder="e.g., Orion Nebula (M42)" style="width: 100%; background: rgba(10,14,22,0.8); border: 1px solid var(--border-subtle); color: #fff; padding: 8px; font-size: 0.85rem; border-radius: 4px;">
+                  </div>
+                  <div>
+                    <label style="display: block; font-size: 0.7rem; color: var(--text-secondary); font-family: var(--font-mono); margin-bottom: 4px;">OPTICAL GEAR *</label>
+                    <input type="text" id="obs-equipment" required placeholder="e.g., 8-inch Dobson Reflector" style="width: 100%; background: rgba(10,14,22,0.8); border: 1px solid var(--border-subtle); color: #fff; padding: 8px; font-size: 0.85rem; border-radius: 4px;">
+                  </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
+                  <div>
+                    <label style="display: block; font-size: 0.7rem; color: var(--text-secondary); font-family: var(--font-mono); margin-bottom: 4px;">OBSERVING LOCATION</label>
+                    <input type="text" id="obs-location" placeholder="Detecting coordinates..." style="width: 100%; background: rgba(10,14,22,0.8); border: 1px solid var(--border-subtle); color: #fff; padding: 8px; font-size: 0.85rem; border-radius: 4px;">
+                  </div>
+                  <div>
+                    <label style="display: block; font-size: 0.7rem; color: var(--text-secondary); font-family: var(--font-mono); margin-bottom: 4px;">SEEING / CONDITIONS</label>
+                    <input type="text" id="obs-weather" placeholder="e.g., Bortle 4, Crystal Clear" style="width: 100%; background: rgba(10,14,22,0.8); border: 1px solid var(--border-subtle); color: #fff; padding: 8px; font-size: 0.85rem; border-radius: 4px;">
+                  </div>
+                </div>
+
+                <div>
+                  <label style="display: block; font-size: 0.7rem; color: var(--text-secondary); font-family: var(--font-mono); margin-bottom: 4px;">ASTROPHOTOGRAPHY PHOTO URL</label>
+                  <input type="url" id="obs-photo" placeholder="https://images.unsplash.com/..." style="width: 100%; background: rgba(10,14,22,0.8); border: 1px solid var(--border-subtle); color: #fff; padding: 8px; font-size: 0.85rem; border-radius: 4px;">
+                </div>
+
+                <div>
+                  <label style="display: block; font-size: 0.7rem; color: var(--text-secondary); font-family: var(--font-mono); margin-bottom: 4px;">OBSERVATION NOTES</label>
+                  <textarea id="obs-notes" rows="3" placeholder="Describe eyepiece impressions, star colors, core structure..." style="width: 100%; background: rgba(10,14,22,0.8); border: 1px solid var(--border-subtle); color: #fff; padding: 8px; font-size: 0.85rem; border-radius: 4px; resize: none; font-family: inherit;"></textarea>
+                </div>
+
+                <button type="submit" style="background: transparent; border: 1px solid var(--accent-primary); color: var(--accent-primary); padding: 10px; font-family: var(--font-mono); font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease; border-radius: 4px; margin-top: 4px; font-weight: bold;">
+                  ⚡ SAVE TO PERSONAL JOURNAL
+                </button>
+              </form>
+            </div> 
+          </div> 
+          
+          <div style="display: flex; flex-direction: column; gap: var(--space-md);">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-sm);">
+              <div class="card" style="padding: var(--space-sm); text-align: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                <div style="font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);">TOTAL LOGS</div>
+                <div id="obs-stat-total" style="font-size: 1.4rem; font-weight: bold; color: var(--accent-primary);">0</div>
+              </div>
+              <div class="card" style="padding: var(--space-sm); text-align: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                <div style="font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);">FAVORITE TARGET</div>
+                <div id="obs-stat-fav" style="font-size: 1rem; font-weight: bold; color: #fff; margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">—</div>
+              </div>
+              <div class="card" style="padding: var(--space-sm); text-align: center; background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle);">
+                <div style="font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);">STREAK</div>
+                <div id="obs-stat-best" style="font-size: 1rem; font-weight: bold; color: #00ff88; margin-top: 4px;">0 days</div>
+              </div>
+            </div>
+
+            <div class="card card-brackets" style="background: rgba(20,24,35,0.4); padding: var(--space-md); border: 1px solid var(--border-subtle);">
+              <h3 style="font-family: var(--font-heading); color: #fff; font-size: 1.1rem; margin-bottom: var(--space-xs);">✨ VISIBLE TONIGHT SIGHTINGS</h3>
+              <ul id="tonights-targets-list" style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--space-xs);"></ul>
+            </div>
+
+            <div class="card card-brackets" style="background: rgba(20,24,35,0.2); padding: var(--space-md); border: 1px solid var(--border-subtle); flex-grow: 1;">
+              <h3 style="font-family: var(--font-heading); color: #fff; font-size: 1.1rem; margin-bottom: var(--space-md);">📒 JOURNAL ENTRIES ARCHIVE</h3>
+              <div id="obs-cards" style="max-height: 480px; overflow-y: auto; padding-right: 4px; display: grid; gap: var(--space-md);"></div>
+            </div>
+          </div> 
+        </div> 
+        <button class="fab" onclick="openAddObservation()" aria-label="Log observation" title="Log Observation">+</button>
+      </div> 
+
+      <div id="page-launches" class="page">
+        <div class="page-header">
+          <h1 class="glow-text">Live Launch Companion</h1>
+          <p>Personal launch-watching companion and upcoming orbital schedules</p>
+        </div>
+        <div class="launch-hero">
+          <div class="launch-hero-mission" id="hero-mission-name">NEXT LAUNCH</div>
+          <div class="countdown-display">
+            <div class="countdown-segment">
+              <div class="countdown-digit-box mono" id="cd-days">00</div>
+              <div class="countdown-unit">Days</div>
+            </div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-segment">
+              <div class="countdown-digit-box mono" id="cd-hours">00</div>
+              <div class="countdown-unit">Hours</div>
+            </div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-segment">
+              <div class="countdown-digit-box mono" id="cd-mins">00</div>
+              <div class="countdown-unit">Minutes</div>
+            </div>
+            <div class="countdown-sep">:</div>
+            <div class="countdown-segment">
+              <div class="countdown-digit-box mono" id="cd-secs">00</div>
+              <div class="countdown-unit">Seconds</div>
+            </div>
+          </div>
+          <div class="launch-hero-rocket" id="hero-rocket">Loading launch data...</div>
+        </div>
+
+        <div class="section-title">Upcoming Launches</div>
+        <div class="launch-cards-grid" id="launch-cards"></div>
+
+        <div class="section-title" style="margin-top:var(--space-xl)">Recent Launches</div>
+        <div class="h-scroll" id="recent-launches"></div>
+
+        <div class="launch-calendar" style="margin-top:var(--space-xl)">
+          <div class="cal-header">
+            <span class="cal-title" id="cal-month-title">March 2026</span>
+          </div>
+          <div class="cal-grid" id="launch-calendar-grid"></div>
+        </div>
+      </div>
+
+      <div id="page-leaderboard" class="page">
+        <div class="page-header">
+          <h1 class="glow-text">Explorer Leaderboard</h1>
+          <p>Top amateur astronomers and citizen science contributors</p>
+        </div>
+
+        <div class="podium-section">
+          <div class="podium-place podium-place-2" id="podium-2">
+            <div class="podium-avatar">🥈</div>
+            <div class="podium-username">—</div>
+            <div class="podium-pts">0 pts</div>
+            <div class="podium-base">2</div>
+          </div>
+          <div class="podium-place podium-place-1" id="podium-1">
+            <div class="podium-avatar">🏆</div>
+            <div class="podium-username">—</div>
+            <div class="podium-pts">0 pts</div>
+            <div class="podium-base">1</div>
+          </div>
+          <div class="podium-place podium-place-3" id="podium-3">
+            <div class="podium-avatar">🥉</div>
+            <div class="podium-username">—</div>
+            <div class="podium-pts">0 pts</div>
+            <div class="podium-base">3</div>
+          </div>
+        </div>
+
+        <div class="card card-brackets" style="padding:0;overflow:hidden;margin-bottom:var(--space-xl)">
+          <div class="data-table-wrap" style="border:none">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Explorer</th>
+                  <th>Points</th>
+                  <th>Breakdown</th>
+                  <th>Level</th>
+                  <th>Last Active</th>
+                </tr>
+              </thead>
+              <tbody id="lb-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="section-title">Achievement Badges</div>
+        <div class="achievements-grid" id="achievements-grid" style="margin-bottom:var(--space-xl)"></div>
+
+        <div class="points-system">
+          <button class="points-system-header" id="pts-system-header" aria-expanded="false">
+            <h3>How Points Are Earned</h3>
+            <span id="pts-toggle-icon">▼</span>
+          </button>
+          <div class="points-system-body" id="pts-system-body">
+            <div class="points-row"><span>Log an observation</span><span class="points-value">+20 pts</span></div>
+            <div class="points-row"><span>Keep observation streak</span><span class="points-value">+30 pts</span></div>
+            <div class="points-row"><span>Log a citizen science contribution</span><span class="points-value">+50 pts</span></div>
+            <div class="points-row"><span>Add a club member</span><span class="points-value">+10 pts</span></div>
+            <div class="points-row"><span>First new program contribution this week</span><span class="points-value">+100 pts</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="page-search" class="page">
+        <div class="search-hero">
+          <h1 class="glow-text">Search &amp; Database</h1>
+          <div class="search-input-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="search" id="main-search-input" class="search-big-input" placeholder="Search observations, club members, discoveries..." aria-label="Global search">
+          </div>
+          <div class="search-category-pills">
+            <button class="category-pill active" data-cat="all">All</button>
+            <button class="category-pill" data-cat="observations">Observations</button>
+            <button class="category-pill" data-cat="crew">Club Members</button>
+            <button class="category-pill" data-cat="discoveries">Citizen Science</button>
+            <button class="category-pill" data-cat="launches">Launches</button>
+          </div>
+        </div>
+
+        <div class="search-results-section" id="search-results"></div>
+
+        <div class="page-header" style="margin-top:var(--space-2xl)">
+          <h2>Full Database</h2>
+          <p>Browse, filter, sort, and export all personal journal and community data</p>
+        </div>
+        <div class="db-tabs">
+          <button class="db-tab active" data-table="observations">🔭 Observations</button>
+          <button class="db-tab" data-table="crew">👥 Club Members</button>
+          <button class="db-tab" data-table="discoveries">🔬 Citizen Science</button>
+          <button class="db-tab" data-table="launches">🚀 Launches</button>
+        </div>
+        <div id="db-table-container"></div>
+      </div>
+
+      <div id="page-login" class="page auth-page">
+        <div class="auth-card">
+          <div class="auth-visual">
+            <div class="auth-visual-icon">🌌</div>
+            <div class="auth-visual-title">SPACE EXPLORER</div>
+            <div class="auth-visual-sub">Cross-Device Journal Sync<br>Secure Authentication Portal</div>
+            <div style="position:absolute;bottom:var(--space-xl);left:0;right:0;text-align:center">
+              <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim)">PERSONAL JOURNAL CLOUD SYNC</div>
+              <div style="width:60px;height:1px;background:var(--border-subtle);margin:8px auto"></div>
+              <div style="font-family:var(--font-mono);font-size:0.6rem;color:var(--text-dim)">ENCRYPTED SECURE ACCESS</div>
+            </div>
+          </div>
+          <div class="auth-form-area">
+            <div class="auth-toggle">
+              <button class="auth-toggle-btn active" data-mode="login">Sign In</button>
+              <button class="auth-toggle-btn" data-mode="register">Register</button>
+            </div>
+
+            <div id="login-form-fields">
+              <form id="login-form" novalidate>
+                <div class="form-group">
+                  <label class="form-label" for="login-email">Email</label>
+                  <input class="form-input" type="email" id="login-email" name="email" placeholder="astronomer@spaceexplorer.io" required aria-label="Email address">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="login-pw">Password</label>
+                  <div class="pw-input-wrap">
+                    <input class="form-input" type="password" id="login-pw" name="password" placeholder="••••••••" required aria-label="Password">
+                    <button type="button" class="pw-toggle" aria-label="Toggle password visibility">👁️</button>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-md)">
+                  <label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;cursor:pointer">
+                    <input type="checkbox" style="accent-color:var(--accent-primary)"> Remember me
+                  </label>
+                  <a href="#" style="font-size:0.75rem">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn btn-primary auth-submit-btn">Sign In</button>
+              </form>
+            </div>
+
+            <div id="register-form-fields" class="hidden" style="display:none">
+              <form id="register-form" novalidate>
+                <div class="form-group">
+                  <label class="form-label" for="reg-username">Username</label>
+                  <input class="form-input" type="text" id="reg-username" name="username" placeholder="StargazerJane" required aria-label="Username">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="reg-email">Email</label>
+                  <input class="form-input" type="email" id="reg-email" name="email" placeholder="you@spaceexplorer.io" required aria-label="Email">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Primary Interest</label>
+                  <div class="role-selector">
+                    <div class="role-card selected" data-role="astrophotographer">
+                      <div class="role-card-icon">📸</div>
+                      <div class="role-card-name">Astrophotographer</div>
+                    </div>
+                    <div class="role-card" data-role="observer">
+                      <div class="role-card-icon">🔭</div>
+                      <div class="role-card-name">Visual Observer</div>
+                    </div>
+                    <div class="role-card" data-role="researcher">
+                      <div class="role-card-icon">🔬</div>
+                      <div class="role-card-name">Citizen Scientist</div>
+                    </div>
+                  </div>
+                  <input type="hidden" id="role-input" name="role" value="astrophotographer">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="reg-pw">Password</label>
+                  <div class="pw-input-wrap">
+                    <input class="form-input" type="password" id="reg-pw" name="password" placeholder="••••••••" required aria-label="Password">
+                    <button type="button" class="pw-toggle" aria-label="Toggle password visibility">👁️</button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="reg-cpw">Confirm Password</label>
+                  <div class="pw-input-wrap">
+                    <input class="form-input" type="password" id="reg-cpw" name="confirmPassword" placeholder="••••••••" required aria-label="Confirm password">
+                    <button type="button" class="pw-toggle" aria-label="Toggle confirm password visibility">👁️</button>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary auth-submit-btn">Create Account</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main></div></div>
+<script src="scripts/api.js"></script>
+<script src="scripts/components.js"></script>
+<script src="scripts/countdown.js"></script>
+<script src="scripts/charts.js"></script>
+<script src="scripts/router.js"></script>
+<script src="scripts/pages/dashboard.js"></script>
+<script src="scripts/pages/missions.js"></script>
+<script src="scripts/pages/crew.js"></script>
+<script src="scripts/pages/discoveries.js"></script>
+<script src="scripts/pages/observations.js"></script> 
+<script src="scripts/pages/launches.js"></script>
+<script src="scripts/pages/leaderboard.js"></script>
+<script src="scripts/pages/search.js"></script>
+<script src="scripts/pages/login.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      // A. Init tsParticles star field
+      if (typeof tsParticles !== 'undefined') {
+        tsParticles.load("tsparticles", {
+          background: { color: { value: "transparent" } },
+          fpsLimit: 60,
+          particles: {
+            number: { value: 140, density: { enable: true, value_area: 900 } },
+            color: { value: ["#ffffff", "#00d4ff", "#00ffcc"] },
+            opacity: { value: 0.6, random: true, anim: { enable: true, speed: 0.3, opacity_min: 0.1 } },
+            size: { value: 1.8, random: true },
+            move: { enable: true, speed: 0.15, direction: "none", random: true, out_mode: "out" },
+            twinkle: { particles: { enable: true, frequency: 0.05, opacity: 1 } }
+          },
+          interactivity: {
+            events: { onhover: { enable: true, mode: "grab" }, onclick: { enable: true, mode: "push" } },
+            modes: { grab: { distance: 120, links: { opacity: 0.15 } }, push: { quantity: 2 } }
+          },
+          detectRetina: true
+        }).catch(() => console.warn('tsParticles failed to load — star field unavailable'));
+      }
+
+      // B. Start session clock & dynamic hero countdown tracker loops
+      if (typeof startMissionClock === 'function') startMissionClock();
+      if (typeof initHeroLaunchSequence === 'function') initHeroLaunchSequence();
+
+      // C. Init router (shows dashboard page segment)
+      if (typeof initRouter === 'function') initRouter();
+
+      // D. Sidebar hover: sync header offset positions dynamically
+      const sidebar = document.getElementById('sidebar');
+      const header  = document.getElementById('header');
+      if (sidebar && header) {
+        sidebar.addEventListener('mouseenter', () => header.style.left = 'var(--sidebar-expanded)');
+        sidebar.addEventListener('mouseleave', () => header.style.left = 'var(--sidebar-collapsed)');
+      }
+      
+    });
+  </script>
+</body>
+</html>
